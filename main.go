@@ -4,17 +4,17 @@
 ** MSc In System and Network Engineering 					 *
 ** Nick Triantafyllidis										 *
 ** This will be a RESTful service							 *
-*/
+ */
 
 package main
 
-import(
+import (
+	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
-	"github.com/gorilla/mux"
 )
 
-func main(){
+func main() {
 
 	mainRouter := mux.NewRouter()
 
@@ -23,22 +23,22 @@ func main(){
 	putSubrouter := mainRouter.Methods("PUT").Subrouter()
 	deleteSubrouter := mainRouter.Methods("DELETE").Subrouter()
 
-	http.Handle("/",mainRouter)
-	
-    getSubrouter.HandleFunc("/api/v1/sum", sum)
-    getSubrouter.HandleFunc("/api/v1/difference", difference)
-    getSubrouter.HandleFunc("/api/v1/product", product)
-    getSubrouter.HandleFunc("/api/v1/quotient", quotient)
-    getSubrouter.HandleFunc("/api/v1/{any}", escape)
-    getSubrouter.HandleFunc("/api/v1", describe)
+	http.Handle("/", mainRouter)
 
- 	postSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
- 	putSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
- 	deleteSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
+	getSubrouter.HandleFunc("/api/v1/sum", sum)
+	getSubrouter.HandleFunc("/api/v1/difference", difference)
+	getSubrouter.HandleFunc("/api/v1/product", product)
+	getSubrouter.HandleFunc("/api/v1/quotient", quotient)
+	getSubrouter.HandleFunc("/api/v1/{any}", escape)
+	getSubrouter.HandleFunc("/api/v1", describe)
 
-	err := http.ListenAndServe(":80",nil)
+	postSubrouter.HandleFunc("/api/v1/{any}", notAllowed)
+	putSubrouter.HandleFunc("/api/v1/{any}", notAllowed)
+	deleteSubrouter.HandleFunc("/api/v1/{any}", notAllowed)
 
-	if err!=nil{
+	err := http.ListenAndServe(":80", nil)
+
+	if err != nil {
 		panic(err)
 	}
 }
@@ -60,43 +60,43 @@ If you get a complaint about a zero in division you either have given a zero (du
 No I will not be sanitizing your input, you will just get zeros!!! 
 TRY ME! :)
 `
-	
+
 	w.Write([]byte(desc))
 }
 
 func sum(w http.ResponseWriter, r *http.Request) {
 	urlValues := r.URL.Query()
-	a, _:= strconv.Atoi(urlValues.Get("a"))
-	b, _:= strconv.Atoi(urlValues.Get("b"))
-    sum := a+b
-    w.Write([]byte(strconv.Itoa(sum)))
+	a, _ := strconv.Atoi(urlValues.Get("a"))
+	b, _ := strconv.Atoi(urlValues.Get("b"))
+	sum := a + b
+	w.Write([]byte(strconv.Itoa(sum)))
 }
 
 func difference(w http.ResponseWriter, r *http.Request) {
 	urlValues := r.URL.Query()
-	a, _:= strconv.Atoi(urlValues.Get("a"))
-	b, _:= strconv.Atoi(urlValues.Get("b"))
-    difference := a-b
-    w.Write([]byte(strconv.Itoa(difference)))
+	a, _ := strconv.Atoi(urlValues.Get("a"))
+	b, _ := strconv.Atoi(urlValues.Get("b"))
+	difference := a - b
+	w.Write([]byte(strconv.Itoa(difference)))
 }
 
 func product(w http.ResponseWriter, r *http.Request) {
 	urlValues := r.URL.Query()
-	a, _:= strconv.Atoi(urlValues.Get("a"))
-	b, _:= strconv.Atoi(urlValues.Get("b"))
-    product := a*b
-    w.Write([]byte(strconv.Itoa(product)))
+	a, _ := strconv.Atoi(urlValues.Get("a"))
+	b, _ := strconv.Atoi(urlValues.Get("b"))
+	product := a * b
+	w.Write([]byte(strconv.Itoa(product)))
 }
 
 func quotient(w http.ResponseWriter, r *http.Request) {
 	urlValues := r.URL.Query()
-	a, _:= strconv.Atoi(urlValues.Get("a"))
-	b, _:= strconv.Atoi(urlValues.Get("b"))
+	a, _ := strconv.Atoi(urlValues.Get("a"))
+	b, _ := strconv.Atoi(urlValues.Get("b"))
 	if b == 0 {
 		w.Write([]byte("You cannot divide by zero"))
-	}else {
-    	quotient:= a/b
-    	w.Write([]byte(strconv.Itoa(quotient)))
+	} else {
+		quotient := a / b
+		w.Write([]byte(strconv.Itoa(quotient)))
 	}
 }
 
