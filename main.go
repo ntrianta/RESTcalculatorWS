@@ -9,10 +9,28 @@
 package main
 
 import(
-	//net/http
-	"fmt"
+	"net/http"
+	"strconv"
+	"github.com/gorilla/mux"
 )
 
 func main(){
-	fmt.Println("Hello! This is gonna REST!")
+
+	mainRouter := mux.NewRouter()
+	http.Handle("/",mainRouter)
+	
+    mainRouter.HandleFunc("/api/v1/sum",sum).method("GET")
+	err := http.ListenAndServe(":8080",nil)
+
+	if err!=nil{
+		panic(err)
+	}
+}
+
+func sum(w http.ResponseWriter, r *http.Request) {
+	urlValues := r.URL.Query()
+	a, _:= strconv.Atoi(urlValues.Get("a"))
+	b, _:= strconv.Atoi(urlValues.Get("b"))
+    sum := a+b
+    w.Write([]byte(strconv.Itoa(sum)))
 }
