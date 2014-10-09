@@ -19,9 +19,9 @@ func main(){
 	mainRouter := mux.NewRouter()
 
 	getSubrouter := mainRouter.Methods("GET").Subrouter()
-	//postSubrouter := mainRouter.Methods("POST").Subrouter()
-	//putSubrouter := mainRouter.Methods("PUT").Subrouter()
-	//deleteSubrouter := mainRouter.Methods("DELETE").Subrouter()
+	postSubrouter := mainRouter.Methods("POST").Subrouter()
+	putSubrouter := mainRouter.Methods("PUT").Subrouter()
+	deleteSubrouter := mainRouter.Methods("DELETE").Subrouter()
 
 	http.Handle("/",mainRouter)
 	
@@ -29,10 +29,14 @@ func main(){
     getSubrouter.HandleFunc("/api/v1/difference", difference)
     getSubrouter.HandleFunc("/api/v1/product", product)
     getSubrouter.HandleFunc("/api/v1/quotient", quotient)
+    getSubrouter.HandleFunc("/api/v1/{any}", escape)
     getSubrouter.HandleFunc("/api/v1", describe)
 
+ 	postSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
+ 	putSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
+ 	deleteSubrouter.HandleFunc("/api/v1/{any}",notAllowed)
 
-	err := http.ListenAndServe(":8080",nil)
+	err := http.ListenAndServe(":80",nil)
 
 	if err!=nil{
 		panic(err)
@@ -94,4 +98,16 @@ func quotient(w http.ResponseWriter, r *http.Request) {
     	quotient:= a/b
     	w.Write([]byte(strconv.Itoa(quotient)))
 	}
+}
+
+func escape(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(501)
+	w.Write([]byte("Not Implemented"))
+}
+
+func notAllowed(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(405)
+	w.Write([]byte("Method Not Allowed"))
 }
