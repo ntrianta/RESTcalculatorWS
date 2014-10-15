@@ -6,4 +6,5 @@ RESTcalculatorWS
 
         mkdir ~/go-workspace
 3. Define your $GOPATH
+
         export GOPATH=~/go-workspace
