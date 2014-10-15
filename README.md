@@ -15,8 +15,10 @@ RESTcalculatorWS
 
         cd $GOPATH/src/github.com/ntrianta/RESTcalculatorWS
         go get
+6. Build the binary
 
-6. Execute the binary
+        go install
+7. Execute the binary
 
         $GOPATH/bin/RESTcalculatorWS
 
