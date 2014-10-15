@@ -36,7 +36,7 @@ func main() {
 	putSubrouter.HandleFunc("/api/v1/{any}", notAllowed)
 	deleteSubrouter.HandleFunc("/api/v1/{any}", notAllowed)
 
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {
 		panic(err)
