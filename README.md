@@ -17,5 +17,6 @@ RESTcalculatorWS
         go get
 
 6. Execute the binary
+
         $GOPATH/bin/RESTcalculatorWS
         
