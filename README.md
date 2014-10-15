@@ -19,4 +19,4 @@ RESTcalculatorWS
 6. Execute the binary
 
         $GOPATH/bin/RESTcalculatorWS
-        
+
